@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      .bar{
+        height:18px;
+        margin-top: 2px;
+        background-color: black;
+      }
+    </style>
+  </head>
+  <body>
+
+    <button onclick = "runMe()">Button of Wonder!</button>
+    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+      var data = [5,15,25,30,15,20,50];
+      var drag = d3.behavior.drag();
+
+
+      runMe();
+
+      function runMe(){
+        console.log("running");
+        data.push(Math.random()*100);
+
+        data = data.map(function(item){return (item+50)*Math.random();})
+        var dataSize = data.length;
+        console.log(data);
+        d3.select("body").selectAll(".bar")
+          .data(data)
+          .enter()
+          .append("div")
+          .classed("bar", true)
+          .style("height","15px")
+          .style("width", "0px")
+
+
+
+        d3.select("body").selectAll(".bar")
+          .data(data)
+          .transition("tran"+dataSize)
+          .duration(2000)
+          .style("width",function(d, i){return d+"px"})
+          .style("background-color", function(d,i){return d3.hsl(i/dataSize*360,.5,.5)})
+          .call(drag);
+      }
+
+  </script>
+
+
+
+  </body>
+</html>

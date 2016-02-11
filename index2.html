@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<body>
+
+
+  <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    console.log("Test");
+    var heroes = [];
+    var setId = 3;
+    heroes.push({
+      x: 50,
+      y: 50,
+      hp: 50,
+      id: 1
+    })
+    heroes.push({
+      x: 300,
+      y: 250,
+      hp: 50,
+      id: 2
+    })
+
+    var height = 500;
+    var width = 500;
+    var svg = d3.select('body')
+      .append("svg")
+      .attr("height", height)
+      .attr("width", width);
+    var circles = svg.selectAll('circle').data(heroes, getId);
+
+
+    function draw(data) {
+      circles = svg.selectAll('circle').data(heroes, getId);
+      circles.exit().transition().remove();
+      circles.enter().append("circle")
+        .attr("cx", 0)
+        .attr("cy", 0)
+        .attr("r", .5);
+
+      circles.transition().duration(1000).attr("cx", function(d) {
+
+          return d.x;
+        })
+        .attr("cy", function(d) {
+
+          return d.y;
+        })
+        .attr("r", function(d) {
+          return d.hp+5;
+        })
+    }
+
+    function step() {
+      if (Math.random() < .1) {
+
+        heroes.push({
+          x: Math.random() * 500,
+          y: Math.random() * 500,
+          hp: Math.random() * 40 + 10,
+          id: setId++
+        })
+        console.log(heroes);
+      }
+      heroes.forEach(function(hero, index, arry) {
+        hero.hp -= Math.random() * 5;
+
+        hero.x += Math.random()*20-10;
+        hero.y += Math.random()*20-10;
+        if (hero.hp <= 0) {
+          hero.hp = 0;
+        }
+      });
+      console.log(heroes);
+      heroes = heroes.reduce(function(arry, hero) {
+        if (hero.hp >= 1) {
+          arry.push(hero);
+        }
+        return arry;
+      }, [])
+      console.log(heroes);
+      draw();
+    }
+    draw();
+    setInterval(step, 1000)
+
+    function getId(d){
+      return d.id;
+    }
+  </script>
+</body>
+
+</html>

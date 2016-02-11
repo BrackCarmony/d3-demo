@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+      div{
+        width:50px;
+        height:10px;
+        background-color: green;
+        margin-top:4px;
+      }
+    </style>
+  </head>
+  <body>
+<button onclick = "runMe()">Button of Wonder</button>
+
+<script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type = "text/javascript">
+var data = [5,15,24,74,23,56,45,8,45,23,74,86,23,65,35];
+
+d3.select('body')
+  .selectAll('div')
+  .data(data)
+  .enter()
+  .append('div')
+  .classed('bar', true)
+  .style('width',function(d, i){
+    return '0px';
+  })
+data = [50,150,24,74,23,56,150,200,300];
+
+function runMe(){
+
+  data.push(Math.random()*100);
+  data = data.map(function(item){
+    return (item +50)*Math.random();
+  });
+
+  d3.select('body')
+    .selectAll('div')
+    .data(data)
+    .enter()
+    .append("div")
+    .style('width','0px');
+
+  d3.select('body')
+    .selectAll('div')
+    .data(data)
+    .transition()
+    .duration(1000)
+    .style('width',function(d, i){
+      return d +'px';
+    })
+    .style('height', function(d,i){
+      return 600/data.length +'px';
+    })
+    .style('background-color', function(d,i){
+      return d3.hsl(i/data.length*360,.5,.5);
+    })
+}
+
+setInterval(runMe, 1000);
+
+
+
+
+
+</script>
+  </body>
+</html>
