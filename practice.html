@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      div{
+        background-color: gold;
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <button onClick = "reset()"></button>
+
+    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="data.js" charset="utf-8"></script>
+    <script type="text/javascript">
+
+    function reset() {
+      console.log("starting");
+      var data = dataFromOtherFile;
+        d3.select("body").selectAll("div")
+          .data(data)
+          .enter()
+          .append("div")
+          .style("height","15px")
+          .style("width",function(d, i){
+            console.log(d);
+            return 0 +"px";
+          })
+          .style("background-color", function(d,i){
+            //return (i%2?'red':'blue');
+            return d3.rgb(d%255,d*5%255,d*7%255);
+          });
+
+          resetData();
+
+      d3.select("body").selectAll("div")
+        .data(data)
+        .transition()
+        .duration(1000)
+        .style("height","15px")
+        .style("width",function(d, i){
+          console.log(d);
+          return d +"px";
+        });
+      }
+
+    </script>
+  </body>
+</html>
